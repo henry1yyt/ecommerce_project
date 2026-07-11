@@ -6,7 +6,9 @@ import pandas as pd
 ROOT = Path(__file__).resolve().parent
 required = ["cleaning_audit.csv", "monthly_trend.csv", "country_analysis.csv", "product_analysis.csv",
             "cohort_retention.csv", "rfm_k_selection.csv", "rfm_cluster_summary.csv",
-            "rfm_user_segments.csv", "dashboard_data.json"]
+            "rfm_user_segments.csv", "dashboard_data.json", "product_abc_detail.csv",
+            "product_abc_summary.csv", "weekday_analysis.csv", "hourly_analysis.csv",
+            "basket_associations.csv", "cancel_product_analysis.csv"]
 missing = [p for p in required if not (ROOT / "outputs/tables" / p).exists()]
 if missing:
     raise SystemExit(f"缺少输出：{missing}")
@@ -15,6 +17,8 @@ assert d["source"]["platform"] == "和鲸社区"
 assert d["kpis"]["orders"] > 30000 and d["kpis"]["customers"] > 5000
 assert len(d["k_selection"]) == 6 and d["kpis"]["best_k"] == 4
 assert len(d["segments"]) == 4
+assert len(d["abc_summary"]) == 3 and len(d["associations"]) >= 8
+assert len(d["weekday"]) == 7 and len(d["hourly"]) == 24 and len(d["insights"]) == 4
 html = (ROOT / "report/在线零售用户与经营洞察.html").read_text(encoding="utf-8")
 for forbidden in ["AI 扩展数据", "渠道 ROI", "A/B 营销方案", "退货风险模型"]:
     assert forbidden not in html, f"仍包含旧口径：{forbidden}"
