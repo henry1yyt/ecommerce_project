@@ -1,0 +1,37 @@
+# Python 缓存
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# 虚拟环境与密钥
+.venv/
+venv/
+env/
+.env
+.env.*
+!.env.example
+
+# IDE 与系统文件
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# 临时文件与日志
+*.log
+*.tmp
+*.temp
+~$*
+
+# 本项目为课程交付，默认保留 data、outputs 和 report，便于老师直接查看。
+# 上传公开 GitHub 时，如数据过大，可按需取消下面注释：
+# data/ecommerce_orders_ai_extended_dirty.csv
+# data/clean_orders.csv
+# outputs/models/
