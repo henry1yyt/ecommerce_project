@@ -16,6 +16,10 @@ UCI Online Retail II，许可为 CC BY 4.0。
 - 复购率与同期群留存
 - RFM 用户特征与 KMeans 四类用户分群
 - K=2～7 的惯性与轮廓系数比较
+- 商品 ABC 分类与累计销售贡献
+- 星期、小时订单规律
+- 购物篮商品关联（支持度、置信度、提升度）
+- 商品取消/冲销数量分析
 - 单页交互式 HTML 数据故事
 
 源数据没有成本、渠道、营销实验、物流时效或退货原因字段，因此项目不再展示旧版的
@@ -42,4 +46,6 @@ python verify_project.py
 - 复购客户：有效订单数至少为 2 的客户
 - RFM：距期末天数、有效发票数、累计有效销售额
 
-`outputs/tables/` 包含全部分析表。HTML 图表由浏览器实时绘制 SVG，不引用图片。
+`outputs/tables/` 包含全部分析表，包括 `product_abc_summary.csv`、
+`weekday_analysis.csv`、`hourly_analysis.csv`、`basket_associations.csv` 和
+`cancel_product_analysis.csv`。HTML 图表由浏览器实时绘制 SVG，不引用图片。
