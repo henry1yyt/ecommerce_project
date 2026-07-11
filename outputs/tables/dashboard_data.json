@@ -354,7 +354,7 @@
   "k_selection": [
     {
       "k": 2,
-      "inertia": 8588.985343295875,
+      "inertia": 8588.985343295877,
       "silhouette": 0.4386023012270002
     },
     {
@@ -369,17 +369,17 @@
     },
     {
       "k": 5,
-      "inertia": 4099.106078778312,
+      "inertia": 4099.106078778311,
       "silhouette": 0.3424961358761568
     },
     {
       "k": 6,
-      "inertia": 3554.696268860983,
+      "inertia": 3554.6962688609824,
       "silhouette": 0.3347964327358149
     },
     {
       "k": 7,
-      "inertia": 3189.9668205514427,
+      "inertia": 3189.966820551442,
       "silhouette": 0.3017107061997286
     }
   ],
@@ -416,6 +416,552 @@
       "monetary": 318.06,
       "segment": "待唤醒"
     }
+  ],
+  "abc_summary": [
+    {
+      "abc_class": "A",
+      "products": 739,
+      "revenue": 12163424.19,
+      "quantity": 6027087,
+      "orders": 424373,
+      "revenue_share": 0.7001
+    },
+    {
+      "abc_class": "B",
+      "products": 1094,
+      "revenue": 3475530.77,
+      "quantity": 2573139,
+      "orders": 209876,
+      "revenue_share": 0.2
+    },
+    {
+      "abc_class": "C",
+      "products": 3453,
+      "revenue": 1735849.308,
+      "quantity": 1913726,
+      "orders": 134618,
+      "revenue_share": 0.0999
+    }
+  ],
+  "weekday": [
+    {
+      "weekday": "周一",
+      "revenue": 2778201.57,
+      "orders": 5755,
+      "customers": 2549
+    },
+    {
+      "weekday": "周二",
+      "revenue": 3322830.14,
+      "orders": 6627,
+      "customers": 2754
+    },
+    {
+      "weekday": "周三",
+      "revenue": 3021043.85,
+      "orders": 6649,
+      "customers": 2755
+    },
+    {
+      "weekday": "周四",
+      "revenue": 3745783.43,
+      "orders": 7773,
+      "customers": 3000
+    },
+    {
+      "weekday": "周五",
+      "revenue": 2728473.17,
+      "orders": 5387,
+      "customers": 2438
+    },
+    {
+      "weekday": "周六",
+      "revenue": 9803.05,
+      "orders": 30,
+      "customers": 26
+    },
+    {
+      "weekday": "周日",
+      "revenue": 1768669.05,
+      "orders": 4748,
+      "customers": 2128
+    }
+  ],
+  "hourly": [
+    {
+      "hour": 0,
+      "revenue": 0.0,
+      "orders": 0,
+      "customers": 0
+    },
+    {
+      "hour": 1,
+      "revenue": 0.0,
+      "orders": 0,
+      "customers": 0
+    },
+    {
+      "hour": 2,
+      "revenue": 0.0,
+      "orders": 0,
+      "customers": 0
+    },
+    {
+      "hour": 3,
+      "revenue": 0.0,
+      "orders": 0,
+      "customers": 0
+    },
+    {
+      "hour": 4,
+      "revenue": 0.0,
+      "orders": 0,
+      "customers": 0
+    },
+    {
+      "hour": 5,
+      "revenue": 0.0,
+      "orders": 0,
+      "customers": 0
+    },
+    {
+      "hour": 6,
+      "revenue": 4.25,
+      "orders": 1,
+      "customers": 1
+    },
+    {
+      "hour": 7,
+      "revenue": 75745.57,
+      "orders": 76,
+      "customers": 67
+    },
+    {
+      "hour": 8,
+      "revenue": 524612.55,
+      "orders": 979,
+      "customers": 690
+    },
+    {
+      "hour": 9,
+      "revenue": 1484450.54,
+      "orders": 2548,
+      "customers": 1391
+    },
+    {
+      "hour": 10,
+      "revenue": 2320711.44,
+      "orders": 4364,
+      "customers": 2028
+    },
+    {
+      "hour": 11,
+      "revenue": 2235897.74,
+      "orders": 4609,
+      "customers": 2139
+    },
+    {
+      "hour": 12,
+      "revenue": 2690556.15,
+      "orders": 6169,
+      "customers": 2589
+    },
+    {
+      "hour": 13,
+      "revenue": 2347078.71,
+      "orders": 5418,
+      "customers": 2569
+    },
+    {
+      "hour": 14,
+      "revenue": 1962016.16,
+      "orders": 4559,
+      "customers": 2342
+    },
+    {
+      "hour": 15,
+      "revenue": 1839607.76,
+      "orders": 3992,
+      "customers": 2117
+    },
+    {
+      "hour": 16,
+      "revenue": 1055274.69,
+      "orders": 2306,
+      "customers": 1368
+    },
+    {
+      "hour": 17,
+      "revenue": 484477.63,
+      "orders": 1158,
+      "customers": 787
+    },
+    {
+      "hour": 18,
+      "revenue": 190860.29,
+      "orders": 415,
+      "customers": 307
+    },
+    {
+      "hour": 19,
+      "revenue": 124825.77,
+      "orders": 324,
+      "customers": 195
+    },
+    {
+      "hour": 20,
+      "revenue": 38685.0,
+      "orders": 51,
+      "customers": 35
+    },
+    {
+      "hour": 21,
+      "revenue": 0.0,
+      "orders": 0,
+      "customers": 0
+    },
+    {
+      "hour": 22,
+      "revenue": 0.0,
+      "orders": 0,
+      "customers": 0
+    },
+    {
+      "hour": 23,
+      "revenue": 0.0,
+      "orders": 0,
+      "customers": 0
+    }
+  ],
+  "cancel_products": [
+    {
+      "StockCode": 23843,
+      "Description": "PAPER CRAFT , LITTLE BIRDIE",
+      "sold_quantity": 80995.0,
+      "cancel_quantity": 80995.0,
+      "cancel_quantity_rate": 0.5,
+      "cancelled_invoices": 1
+    },
+    {
+      "StockCode": 23166,
+      "Description": "MEDIUM CERAMIC TOP STORAGE JAR",
+      "sold_quantity": 77916.0,
+      "cancel_quantity": 74494.0,
+      "cancel_quantity_rate": 0.4888,
+      "cancelled_invoices": 10
+    },
+    {
+      "StockCode": 84347,
+      "Description": "ROTATING SILVER ANGELS T-LIGHT HLDR",
+      "sold_quantity": 28606.0,
+      "cancel_quantity": 9370.0,
+      "cancel_quantity_rate": 0.2467,
+      "cancelled_invoices": 4
+    },
+    {
+      "StockCode": 21088,
+      "Description": "SET/6 FRUIT SALAD PAPER CUPS",
+      "sold_quantity": 16503.0,
+      "cancel_quantity": 7140.0,
+      "cancel_quantity_rate": 0.302,
+      "cancelled_invoices": 2
+    },
+    {
+      "StockCode": 21096,
+      "Description": "SET/6 FRUIT SALAD  PAPER PLATES",
+      "sold_quantity": 15776.0,
+      "cancel_quantity": 7008.0,
+      "cancel_quantity_rate": 0.3076,
+      "cancelled_invoices": 1
+    },
+    {
+      "StockCode": "M",
+      "Description": "Manual",
+      "sold_quantity": 9384.0,
+      "cancel_quantity": 5306.0,
+      "cancel_quantity_rate": 0.3612,
+      "cancelled_invoices": 360
+    },
+    {
+      "StockCode": 16047,
+      "Description": "POP ART PEN CASE & PENS",
+      "sold_quantity": 10587.0,
+      "cancel_quantity": 5184.0,
+      "cancel_quantity_rate": 0.3287,
+      "cancelled_invoices": 1
+    },
+    {
+      "StockCode": 85110,
+      "Description": "BLACK SILVER FLOWER T-LIGHT HOLDER",
+      "sold_quantity": 11512.0,
+      "cancel_quantity": 5040.0,
+      "cancel_quantity_rate": 0.3045,
+      "cancelled_invoices": 2
+    },
+    {
+      "StockCode": 37340,
+      "Description": "MULTICOLOUR SPRING FLOWER MUG",
+      "sold_quantity": 13083.0,
+      "cancel_quantity": 4996.0,
+      "cancel_quantity_rate": 0.2763,
+      "cancelled_invoices": 4
+    },
+    {
+      "StockCode": 16046,
+      "Description": "TEATIME PEN CASE & PENS",
+      "sold_quantity": 9949.0,
+      "cancel_quantity": 4632.0,
+      "cancel_quantity_rate": 0.3177,
+      "cancelled_invoices": 2
+    },
+    {
+      "StockCode": "85160A",
+      "Description": "WHITE BIRD GARDEN DESIGN MUG",
+      "sold_quantity": 8800.0,
+      "cancel_quantity": 4320.0,
+      "cancel_quantity_rate": 0.3293,
+      "cancelled_invoices": 1
+    },
+    {
+      "StockCode": "85184D",
+      "Description": "S/4 BLUE ROUND DECOUPAGE BOXES",
+      "sold_quantity": 8294.0,
+      "cancel_quantity": 3940.0,
+      "cancel_quantity_rate": 0.3221,
+      "cancelled_invoices": 2
+    },
+    {
+      "StockCode": "16162L",
+      "Description": "THE KING GIFT BAG",
+      "sold_quantity": 8083.0,
+      "cancel_quantity": 3744.0,
+      "cancel_quantity_rate": 0.3166,
+      "cancelled_invoices": 1
+    },
+    {
+      "StockCode": 21392,
+      "Description": "RED POLKADOT PUDDING BOWL",
+      "sold_quantity": 3708.0,
+      "cancel_quantity": 3648.0,
+      "cancel_quantity_rate": 0.4959,
+      "cancelled_invoices": 1
+    },
+    {
+      "StockCode": "85123A",
+      "Description": "WHITE HANGING HEART T-LIGHT HOLDER",
+      "sold_quantity": 91757.0,
+      "cancel_quantity": 3631.0,
+      "cancel_quantity_rate": 0.0381,
+      "cancelled_invoices": 133
+    }
+  ],
+  "associations": [
+    {
+      "antecedent_code": "21733",
+      "antecedent": "RED HANGING HEART T-LIGHT HOLDER",
+      "consequent_code": "85123A",
+      "consequent": "WHITE HANGING HEART T-LIGHT HOLDER",
+      "pair_orders": 1069,
+      "support": 0.0319,
+      "confidence": 0.6991,
+      "lift": 5.019
+    },
+    {
+      "antecedent_code": "22386",
+      "antecedent": "JUMBO BAG PINK WITH WHITE SPOTS",
+      "consequent_code": "85099B",
+      "consequent": "JUMBO BAG RED WHITE SPOTTY",
+      "pair_orders": 1028,
+      "support": 0.0307,
+      "confidence": 0.6015,
+      "lift": 6.4502
+    },
+    {
+      "antecedent_code": "22384",
+      "antecedent": "LUNCHBAG PINK RETROSPOT",
+      "consequent_code": "20725",
+      "consequent": "LUNCH BAG RED SPOTTY",
+      "pair_orders": 963,
+      "support": 0.0287,
+      "confidence": 0.5503,
+      "lift": 7.4717
+    },
+    {
+      "antecedent_code": "20727",
+      "antecedent": "LUNCH BAG  BLACK SKULL.",
+      "consequent_code": "20725",
+      "consequent": "LUNCH BAG RED SPOTTY",
+      "pair_orders": 944,
+      "support": 0.0282,
+      "confidence": 0.5008,
+      "lift": 6.7997
+    },
+    {
+      "antecedent_code": "82482",
+      "antecedent": "WOODEN PICTURE FRAME WHITE FINISH",
+      "consequent_code": "82494L",
+      "consequent": "WOODEN FRAME ANTIQUE WHITE",
+      "pair_orders": 942,
+      "support": 0.0281,
+      "confidence": 0.5992,
+      "lift": 11.7912
+    },
+    {
+      "antecedent_code": "22383",
+      "antecedent": "LUNCHBAG SUKI  DESIGN",
+      "consequent_code": "20725",
+      "consequent": "LUNCH BAG RED SPOTTY",
+      "pair_orders": 919,
+      "support": 0.0274,
+      "confidence": 0.4852,
+      "lift": 6.5882
+    },
+    {
+      "antecedent_code": "85099F",
+      "antecedent": "JUMBO BAG STRAWBERRY",
+      "consequent_code": "85099B",
+      "consequent": "JUMBO BAG RED WHITE SPOTTY",
+      "pair_orders": 907,
+      "support": 0.0271,
+      "confidence": 0.6255,
+      "lift": 6.7075
+    },
+    {
+      "antecedent_code": "21931",
+      "antecedent": "JUMBO STORAGE BAG SUKI",
+      "consequent_code": "85099B",
+      "consequent": "JUMBO BAG RED WHITE SPOTTY",
+      "pair_orders": 872,
+      "support": 0.026,
+      "confidence": 0.5291,
+      "lift": 5.6739
+    },
+    {
+      "antecedent_code": "20728",
+      "antecedent": "LUNCH BAG CARS BLUE",
+      "consequent_code": "20725",
+      "consequent": "LUNCH BAG RED SPOTTY",
+      "pair_orders": 846,
+      "support": 0.0252,
+      "confidence": 0.5006,
+      "lift": 6.7969
+    },
+    {
+      "antecedent_code": "22382",
+      "antecedent": "LUNCHBAG SPACEBOY DESIGN",
+      "consequent_code": "22383",
+      "consequent": "LUNCHBAG SUKI  DESIGN",
+      "pair_orders": 842,
+      "support": 0.0251,
+      "confidence": 0.4655,
+      "lift": 8.2351
+    },
+    {
+      "antecedent_code": "22470",
+      "antecedent": "HEART OF WICKER LARGE",
+      "consequent_code": "22469",
+      "consequent": "HEART OF WICKER SMALL",
+      "pair_orders": 832,
+      "support": 0.0248,
+      "confidence": 0.4994,
+      "lift": 9.8383
+    },
+    {
+      "antecedent_code": "22382",
+      "antecedent": "LUNCHBAG SPACEBOY DESIGN",
+      "consequent_code": "20725",
+      "consequent": "LUNCH BAG RED SPOTTY",
+      "pair_orders": 830,
+      "support": 0.0248,
+      "confidence": 0.4588,
+      "lift": 6.2297
+    },
+    {
+      "antecedent_code": "84991",
+      "antecedent": "60 TEATIME FAIRY CAKE CASES",
+      "consequent_code": "21212",
+      "consequent": "PACK OF 72 RETRO SPOT CAKE CASES",
+      "pair_orders": 825,
+      "support": 0.0246,
+      "confidence": 0.5034,
+      "lift": 7.1594
+    },
+    {
+      "antecedent_code": "21231",
+      "antecedent": "SWEETHEART CERAMIC TRINKET BOX",
+      "consequent_code": "21232",
+      "consequent": "STRAWBERRY CERAMIC TRINKET BOX",
+      "pair_orders": 801,
+      "support": 0.0239,
+      "confidence": 0.7249,
+      "lift": 13.4501
+    },
+    {
+      "antecedent_code": "20726",
+      "antecedent": "LUNCH BAG WOODLAND",
+      "consequent_code": "20725",
+      "consequent": "LUNCH BAG RED SPOTTY",
+      "pair_orders": 794,
+      "support": 0.0237,
+      "confidence": 0.5336,
+      "lift": 7.2451
+    },
+    {
+      "antecedent_code": "20725",
+      "antecedent": "LUNCH BAG RED SPOTTY",
+      "consequent_code": "85099B",
+      "consequent": "JUMBO BAG RED WHITE SPOTTY",
+      "pair_orders": 792,
+      "support": 0.0236,
+      "confidence": 0.3209,
+      "lift": 3.4412
+    },
+    {
+      "antecedent_code": "20727",
+      "antecedent": "LUNCH BAG  BLACK SKULL.",
+      "consequent_code": "22383",
+      "consequent": "LUNCHBAG SUKI  DESIGN",
+      "pair_orders": 784,
+      "support": 0.0234,
+      "confidence": 0.4159,
+      "lift": 7.3587
+    },
+    {
+      "antecedent_code": "22384",
+      "antecedent": "LUNCHBAG PINK RETROSPOT",
+      "consequent_code": "20727",
+      "consequent": "LUNCH BAG  BLACK SKULL.",
+      "pair_orders": 780,
+      "support": 0.0233,
+      "confidence": 0.4457,
+      "lift": 7.9235
+    },
+    {
+      "antecedent_code": "85099C",
+      "antecedent": "JUMBO  BAG BAROQUE BLACK WHITE",
+      "consequent_code": "85099B",
+      "consequent": "JUMBO BAG RED WHITE SPOTTY",
+      "pair_orders": 777,
+      "support": 0.0232,
+      "confidence": 0.5542,
+      "lift": 5.9429
+    },
+    {
+      "antecedent_code": "21977",
+      "antecedent": "PACK OF 60 PINK PAISLEY CAKE CASES",
+      "consequent_code": "21212",
+      "consequent": "PACK OF 72 RETRO SPOT CAKE CASES",
+      "pair_orders": 770,
+      "support": 0.023,
+      "confidence": 0.527,
+      "lift": 7.4962
+    }
+  ],
+  "insights": [
+    "ABC 分析显示，仅 739 个 A 类商品贡献 70.0% 销售额；该结论由商品销售额降序及累计贡献率 70% 阈值得出。",
+    "订单在周四最多（7,773 单），单日时段在 12:00 最集中（6,169 单）；结论来自订单级星期与小时聚合。",
+    "高关联规则“RED HANGING HEART T-LIGHT HOLDER → WHITE HANGING HEART T-LIGHT HOLDER”的置信度为 69.9%、提升度为 5.02；提升度大于 1 表示共同出现高于随机独立预期。",
+    "取消绝对数量最高的商品是“PAPER CRAFT , LITTLE BIRDIE”，取消数量 80,995；该结论按商品汇总取消/冲销记录的绝对数量得出。"
   ],
   "retention": {
     "2009-12": {
