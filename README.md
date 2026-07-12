@@ -20,6 +20,7 @@ UCI Online Retail II，许可为 CC BY 4.0。
 - 星期、小时订单规律
 - 购物篮商品关联（支持度、置信度、提升度）
 - 商品取消/冲销数量分析
+- 订单取消风险预测：输入订单、时间、国家和客户历史指标后，在 HTML 中即时计算风险分
 - 单页交互式 HTML 数据故事
 
 源数据没有成本、渠道、营销实验、物流时效或退货原因字段，因此项目不再展示旧版的
@@ -49,3 +50,7 @@ python verify_project.py
 `outputs/tables/` 包含全部分析表，包括 `product_abc_summary.csv`、
 `weekday_analysis.csv`、`hourly_analysis.csv`、`basket_associations.csv` 和
 `cancel_product_analysis.csv`。HTML 图表由浏览器实时绘制 SVG，不引用图片。
+
+取消风险模型使用订单时间前 80% 训练、后 20% 测试，只使用当前订单属性和下单前客户历史。
+网页支持国家、月份、星期、小时下拉菜单，以及订单金额、商品数量、客户历史等输入项。
+该模型预测的是数据中的取消/冲销发票，不等同于具有明确原因标签的真实退货预测。
