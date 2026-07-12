@@ -8,7 +8,7 @@ required = ["cleaning_audit.csv", "monthly_trend.csv", "country_analysis.csv", "
             "cohort_retention.csv", "rfm_k_selection.csv", "rfm_cluster_summary.csv",
             "rfm_user_segments.csv", "dashboard_data.json", "product_abc_detail.csv",
             "product_abc_summary.csv", "weekday_analysis.csv", "hourly_analysis.csv",
-            "basket_associations.csv", "cancel_product_analysis.csv"]
+            "basket_associations.csv", "basket_recommendations.csv", "cancel_product_analysis.csv"]
 missing = [p for p in required if not (ROOT / "outputs/tables" / p).exists()]
 if missing:
     raise SystemExit(f"缺少输出：{missing}")
@@ -19,11 +19,13 @@ assert d["kpis"]["orders"] > 30000 and d["kpis"]["customers"] > 5000
 assert len(d["k_selection"]) == 6 and d["kpis"]["best_k"] == 4
 assert len(d["segments"]) == 4
 assert len(d["abc_summary"]) == 3 and len(d["associations"]) >= 8
+assert len(d["recommendations"]) >= 1000
 assert len(d["weekday"]) == 7 and len(d["hourly"]) == 24 and len(d["insights"]) == 4
 assert d["cancellation_model"]["metrics"]["roc_auc"] > 0.7
 assert (ROOT / "outputs/models/cancellation_risk_model.joblib").exists()
 assert (ROOT / "outputs/tables/cancellation_model_evaluation.csv").exists()
 assert "risk-form" in html and "订单取消风险预测" in html
+assert "reco-product" in html and "购物篮商品推荐器" in html
 for forbidden in ["AI 扩展数据", "渠道 ROI", "A/B 营销方案", "退货风险模型"]:
     assert forbidden not in html, f"仍包含旧口径：{forbidden}"
 assert "outputs/figures" not in html and "<img" not in html
