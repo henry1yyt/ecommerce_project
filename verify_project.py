@@ -13,13 +13,17 @@ missing = [p for p in required if not (ROOT / "outputs/tables" / p).exists()]
 if missing:
     raise SystemExit(f"缺少输出：{missing}")
 d = json.loads((ROOT / "outputs/tables/dashboard_data.json").read_text(encoding="utf-8"))
+html = (ROOT / "report/在线零售用户与经营洞察.html").read_text(encoding="utf-8")
 assert d["source"]["platform"] == "和鲸社区"
 assert d["kpis"]["orders"] > 30000 and d["kpis"]["customers"] > 5000
 assert len(d["k_selection"]) == 6 and d["kpis"]["best_k"] == 4
 assert len(d["segments"]) == 4
 assert len(d["abc_summary"]) == 3 and len(d["associations"]) >= 8
 assert len(d["weekday"]) == 7 and len(d["hourly"]) == 24 and len(d["insights"]) == 4
-html = (ROOT / "report/在线零售用户与经营洞察.html").read_text(encoding="utf-8")
+assert d["cancellation_model"]["metrics"]["roc_auc"] > 0.7
+assert (ROOT / "outputs/models/cancellation_risk_model.joblib").exists()
+assert (ROOT / "outputs/tables/cancellation_model_evaluation.csv").exists()
+assert "risk-form" in html and "订单取消风险预测" in html
 for forbidden in ["AI 扩展数据", "渠道 ROI", "A/B 营销方案", "退货风险模型"]:
     assert forbidden not in html, f"仍包含旧口径：{forbidden}"
 assert "outputs/figures" not in html and "<img" not in html
