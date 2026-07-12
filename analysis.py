@@ -9,14 +9,18 @@ https://www.heywhale.com/mw/dataset/6a124df17e367d3a68e4c96b
 from __future__ import annotations
 
 import json
+import joblib
 from collections import Counter
 from itertools import combinations
 from pathlib import Path
 import numpy as np
 import pandas as pd
 from sklearn.cluster import KMeans
-from sklearn.metrics import silhouette_score
-from sklearn.preprocessing import StandardScaler
+from sklearn.compose import ColumnTransformer
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import average_precision_score, precision_score, recall_score, roc_auc_score, silhouette_score
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import OneHotEncoder, StandardScaler
 
 ROOT = Path(__file__).resolve().parent
 RAW = ROOT / "data/raw/online_retail_II.xlsx"
@@ -24,6 +28,7 @@ TABLES = ROOT / "outputs/tables"
 REPORT = ROOT / "report/在线零售用户与经营洞察.html"
 TABLES.mkdir(parents=True, exist_ok=True)
 REPORT.parent.mkdir(parents=True, exist_ok=True)
+(ROOT / "outputs/models").mkdir(parents=True, exist_ok=True)
 
 SOURCE = {
     "name": "online-retail-ii（英国礼品零售商数据）",
@@ -32,6 +37,81 @@ SOURCE = {
     "original": "Online Retail II / UCI ML Repository",
     "license": "CC BY 4.0",
 }
+
+def build_cancellation_model(df: pd.DataFrame) -> tuple[dict, pd.DataFrame]:
+    """构建订单级取消风险模型，并导出可在浏览器复现的逻辑回归参数。"""
+    events = df.groupby("InvoiceNo").agg(
+        CustomerID=("CustomerID", "first"), InvoiceDate=("InvoiceDate", "min"),
+        Country=("Country", "first"), is_cancelled=("is_cancelled", "max"),
+        order_value=("line_value", "sum"), total_quantity=("Quantity", lambda x: x.abs().sum()),
+        unique_products=("StockCode", "nunique"), line_count=("StockCode", "size"),
+        avg_unit_price=("UnitPrice", "mean"), max_unit_price=("UnitPrice", "max")
+    ).reset_index().sort_values(["InvoiceDate", "InvoiceNo"]).reset_index(drop=True)
+    events["is_cancelled"] = events.is_cancelled.astype(int)
+    events["month"] = events.InvoiceDate.dt.month
+    events["weekday"] = events.InvoiceDate.dt.weekday
+    events["hour"] = events.InvoiceDate.dt.hour
+
+    # 历史特征全部先 shift，再参与当前订单预测，确保不会看见当前或未来结果。
+    g = events.groupby("CustomerID", sort=False)
+    events["prior_orders"] = g.cumcount()
+    events["prior_cancel_count"] = g.is_cancelled.cumsum() - events.is_cancelled
+    events["prior_cancel_rate"] = np.where(events.prior_orders > 0,
+        events.prior_cancel_count / events.prior_orders, 0.0)
+    sales_value = events.order_value.where(events.is_cancelled == 0, 0.0)
+    events["prior_spend"] = sales_value.groupby(events.CustomerID).cumsum() - sales_value
+    events["days_since_last"] = g.InvoiceDate.diff().dt.total_seconds().div(86400)
+    events["days_since_last"] = events.days_since_last.fillna(365).clip(0, 730)
+
+    events["log_order_value"] = np.log1p(events.order_value.clip(lower=0))
+    events["log_total_quantity"] = np.log1p(events.total_quantity.clip(lower=0))
+    events["log_prior_spend"] = np.log1p(events.prior_spend.clip(lower=0))
+    numeric = ["log_order_value", "log_total_quantity", "unique_products", "line_count",
+        "avg_unit_price", "max_unit_price", "month", "weekday", "hour", "prior_orders",
+        "prior_cancel_count", "prior_cancel_rate", "log_prior_spend", "days_since_last"]
+    categorical = ["Country"]
+
+    # 严格按时间切分：前 80% 训练，后 20% 测试。
+    split = int(len(events) * .80)
+    train, test = events.iloc[:split], events.iloc[split:]
+    pre = ColumnTransformer([
+        ("num", StandardScaler(), numeric),
+        ("cat", OneHotEncoder(handle_unknown="ignore", sparse_output=False), categorical),
+    ])
+    pipeline = Pipeline([("pre", pre), ("model", LogisticRegression(
+        max_iter=1500, class_weight="balanced", random_state=42, C=.6))])
+    pipeline.fit(train[numeric + categorical], train.is_cancelled)
+    prob = pipeline.predict_proba(test[numeric + categorical])[:, 1]
+    pred = (prob >= .5).astype(int)
+    metrics = {
+        "train_events": int(len(train)), "test_events": int(len(test)),
+        "train_end": str(train.InvoiceDate.max().date()), "test_start": str(test.InvoiceDate.min().date()),
+        "test_end": str(test.InvoiceDate.max().date()), "test_cancel_rate": float(test.is_cancelled.mean()),
+        "roc_auc": float(roc_auc_score(test.is_cancelled, prob)),
+        "pr_auc": float(average_precision_score(test.is_cancelled, prob)),
+        "precision": float(precision_score(test.is_cancelled, pred, zero_division=0)),
+        "recall": float(recall_score(test.is_cancelled, pred, zero_division=0)),
+    }
+
+    scaler = pipeline.named_steps["pre"].named_transformers_["num"]
+    encoder = pipeline.named_steps["pre"].named_transformers_["cat"]
+    coef = pipeline.named_steps["model"].coef_[0]
+    numeric_export = {name: {"mean": float(scaler.mean_[i]), "scale": float(scaler.scale_[i]),
+        "coef": float(coef[i])} for i, name in enumerate(numeric)}
+    offset = len(numeric)
+    countries = {str(country): float(coef[offset + i]) for i, country in enumerate(encoder.categories_[0])}
+    defaults_raw = {name: float(events[name].median()) for name in ["order_value", "total_quantity",
+        "unique_products", "line_count", "avg_unit_price", "max_unit_price", "month", "weekday",
+        "hour", "prior_orders", "prior_cancel_count", "prior_cancel_rate", "prior_spend", "days_since_last"]}
+    export = {"intercept": float(pipeline.named_steps["model"].intercept_[0]),
+        "numeric": numeric_export, "countries": countries, "defaults": defaults_raw, "metrics": metrics,
+        "feature_note": "仅使用当前订单属性与下单前客户历史；时间后20%为独立测试集。"}
+    joblib.dump(pipeline, ROOT / "outputs/models/cancellation_risk_model.joblib")
+    evaluation = pd.DataFrame([metrics])
+    evaluation.to_csv(TABLES / "cancellation_model_evaluation.csv", index=False)
+    events[["InvoiceNo", "InvoiceDate", "CustomerID", "Country", "is_cancelled"] + numeric].to_csv(
+        TABLES / "cancellation_model_dataset.csv", index=False)
+    return export, evaluation
 
 def load_data(path: Path = RAW) -> pd.DataFrame:
     if not path.exists():
@@ -75,6 +155,7 @@ def clean_data(raw: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame]:
 def analyse(df: pd.DataFrame) -> dict:
     sales = df[~df.is_cancelled].copy()
     cancelled = df[df.is_cancelled].copy()
+    cancellation_model, cancellation_evaluation = build_cancellation_model(df)
     invoice = sales.groupby("InvoiceNo").agg(CustomerID=("CustomerID", "first"), InvoiceDate=("InvoiceDate", "min"),
         Country=("Country", "first"), revenue=("line_value", "sum"), items=("Quantity", "sum")).reset_index()
     cancelled_invoices = cancelled.InvoiceNo.nunique()
@@ -218,6 +299,7 @@ def analyse(df: pd.DataFrame) -> dict:
         "hourly": hourly.round(2).to_dict("records"),
         "cancel_products": cancel_product.round(4).to_dict("records"),
         "associations": associations.round(4).to_dict("records"), "insights": insights,
+        "cancellation_model": cancellation_model,
         "retention": {str(i): {str(k): round(float(v), 4) for k, v in row.dropna().items()} for i, row in retention.iterrows()}}
     (TABLES / "dashboard_data.json").write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
     return payload
