@@ -214,7 +214,7 @@ def analyse(df: pd.DataFrame) -> dict:
     product_names["StockCode"] = product_names.StockCode.astype(str)
     desc_map = product_names.set_index("StockCode").Description.to_dict()
     basket_n = len(eligible)
-    association_rows = []
+    association_rows, recommendation_rows = [], []
     for (a, b), n in pair_counts.most_common():
         if n < 20:
             break
@@ -226,9 +226,22 @@ def analyse(df: pd.DataFrame) -> dict:
         association_rows.append({"antecedent_code": antecedent, "antecedent": desc_map.get(antecedent, antecedent),
             "consequent_code": consequent, "consequent": desc_map.get(consequent, consequent), "pair_orders": n,
             "support": support, "confidence": confidence, "lift": lift})
+        if lift > 1.2:
+            recommendation_rows.extend([
+                {"antecedent_code": a, "antecedent": desc_map.get(a, a), "consequent_code": b,
+                 "consequent": desc_map.get(b, b), "pair_orders": n, "support": support,
+                 "confidence": conf_ab, "lift": lift},
+                {"antecedent_code": b, "antecedent": desc_map.get(b, b), "consequent_code": a,
+                 "consequent": desc_map.get(a, a), "pair_orders": n, "support": support,
+                 "confidence": conf_ba, "lift": lift},
+            ])
     associations = pd.DataFrame(association_rows)
     associations = associations[(associations.pair_orders >= 50) & (associations.lift > 1.2)].sort_values(
         ["pair_orders", "confidence", "lift"], ascending=False).head(20)
+    recommendations = pd.DataFrame(recommendation_rows)
+    recommendations = recommendations.sort_values(
+        ["antecedent_code", "pair_orders", "confidence", "lift"], ascending=[True, False, False, False])
+    recommendations = recommendations.groupby("antecedent_code", sort=False).head(5).reset_index(drop=True)
 
     max_date = invoice.InvoiceDate.max() + pd.Timedelta(days=1)
     rfm = invoice.groupby("CustomerID").agg(last_purchase=("InvoiceDate", "max"), frequency=("InvoiceNo", "nunique"),
@@ -276,6 +289,7 @@ def analyse(df: pd.DataFrame) -> dict:
     hourly.to_csv(TABLES / "hourly_analysis.csv", index=False)
     cancel_product.to_csv(TABLES / "cancel_product_analysis.csv", index=False)
     associations.to_csv(TABLES / "basket_associations.csv", index=False)
+    recommendations.to_csv(TABLES / "basket_recommendations.csv", index=False)
     rfm.drop(columns=["last_purchase"]).to_csv(TABLES / "rfm_user_segments.csv", index=False)
     summary.to_csv(TABLES / "rfm_cluster_summary.csv", index=False)
     pd.DataFrame(selection).to_csv(TABLES / "rfm_k_selection.csv", index=False)
@@ -298,7 +312,8 @@ def analyse(df: pd.DataFrame) -> dict:
         "weekday": weekday[["weekday", "revenue", "orders", "customers"]].round(2).to_dict("records"),
         "hourly": hourly.round(2).to_dict("records"),
         "cancel_products": cancel_product.round(4).to_dict("records"),
-        "associations": associations.round(4).to_dict("records"), "insights": insights,
+        "associations": associations.round(4).to_dict("records"),
+        "recommendations": recommendations.round(4).to_dict("records"), "insights": insights,
         "cancellation_model": cancellation_model,
         "retention": {str(i): {str(k): round(float(v), 4) for k, v in row.dropna().items()} for i, row in retention.iterrows()}}
     (TABLES / "dashboard_data.json").write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
